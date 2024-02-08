@@ -1,0 +1,30 @@
+local ball = display.newCircle(display.contentCenterX, display.contentCenterY, 20)
+local dashButton = display.newText("Dash", display.contentWidth - 50, display.contentHeight - 50, native.systemFont, 20)
+local autoParryButton = display.newText("Auto Parry", display.contentWidth - 150, display.contentHeight - 50, native.systemFont, 20)
+local isAutoParryActive = false
+
+local function dashBall()
+    if isAutoParryActive then
+        transition.to(ball, {x = ball.x, y = ball.y, time = 300})
+    end
+end
+
+local function onDashButtonTouch(event)
+    if event.phase == "began" then
+        dashBall()
+    end
+end
+
+local function onAutoParryButtonTouch(event)
+    if event.phase == "began" then
+        isAutoParryActive = not isAutoParryActive
+        if isAutoParryActive then
+            dashButton.text = "Auto Parry Active"
+        else
+            dashButton.text = "Dash"
+        end
+    end
+end
+
+dashButton:addEventListener("touch", onDashButtonTouch)
+autoParryButton:addEventListener("touch", onAutoParryButtonTouch)
